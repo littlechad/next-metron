@@ -1,12 +1,12 @@
 {
-  "name": "with-redux-observable",
-  "version": "1.0.0",
+  "name": "next-metron",
+  "version": "0.1.0",
   "scripts": {
     "dev": "next",
     "build": "next build",
     "start": "next start"
   },
-  "author": "tomaszmularczyk(tomasz.mularczyk89@gmail.com)",
+  "author": "Fian Kurniawan <fian.kurniawan@gmail.com>",
   "dependencies": {
     "next": "^4.2.3",
     "next-redux-wrapper": "^1.0.0",
@@ -21,5 +21,29 @@
     "superagent": "^3.8.1",
     "universal-rx-request": "^1.0.3"
   },
-  "license": "ISC"
+  "license": "MIT",
+  "description": "next js with redux-observable and code splitting",
+  "main": "index.js",
+  "devDependencies": {
+    "babel-eslint": "^8.2.1",
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0",
+    "prop-types": "^15.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/littlechad/next-metron.git"
+  },
+  "keywords": [
+    "nextjs",
+    "redux",
+    "redux-observable"
+  ],
+  "bugs": {
+    "url": "https://github.com/littlechad/next-metron/issues"
+  },
+  "homepage": "https://github.com/littlechad/next-metron#readme"
 }

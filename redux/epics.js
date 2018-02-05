@@ -4,5 +4,7 @@ import { fetchUserEpic, fetchCharacterEpic } from './ducks/character/epics'
 
 export const rootEpic = combineEpics(
   fetchUserEpic,
-  fetchCharacterEpic
+  fetchCharacterEpic,
 )
+
+export default { rootEpic }
