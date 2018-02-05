@@ -2,7 +2,7 @@ import * as types from './types'
 
 const INITIAL_STATE = {
   data: {},
-  error: null,
+  error: {},
   isFetchedOnServer: false,
   nextCharacterId: 1,
 }
