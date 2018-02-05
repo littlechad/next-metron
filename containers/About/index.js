@@ -2,21 +2,21 @@ import React from 'react'
 import Link from 'next/link'
 import Helmet from 'react-helmet'
 
-const Other = () => (
+const About = () => (
   <div>
     <Helmet
-      title="Ini other | Hello next.js!"
+      title="Ini about | Hello next.js!"
       meta={[
-        { property: 'og:title', content: 'ini other title' },
-        { property: 'og:description', content: 'ini other description' },
+        { property: 'og:title', content: 'ini about title' },
+        { property: 'og:description', content: 'ini about description' },
       ]}
     />
-    <h1>Other Page</h1>
+    <h1>About Page</h1>
     {/* eslint-disable jsx-a11y/anchor-is-valid */}
     <Link href="/"><a>Get back to home</a></Link><br />
-    <Link href="/about"><a>Navigate to about</a></Link>
+    <Link href="/other"><a>Navigate to other</a></Link>
     {/* eslint-enable jsx-a11y/anchor-is-valid */}
   </div>
 )
 
-export default Other
+export default About

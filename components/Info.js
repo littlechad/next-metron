@@ -6,7 +6,7 @@ const Info = ({
   error,
   isFetchedOnServer = false,
 }) => {
-  const message = error
+  const message = Object.keys(error).length > 0
     ? (<p>We encountered and error.</p>)
     : (
       <article>
@@ -25,13 +25,9 @@ const Info = ({
   )
 }
 
-Info.defaultProps = {
-  error: null,
-}
-
 Info.propTypes = {
   data: PropTypes.shape({}).isRequired,
-  error: PropTypes.string,
+  error: PropTypes.shape({}).isRequired,
   isFetchedOnServer: PropTypes.bool.isRequired,
 }
 
