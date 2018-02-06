@@ -22,17 +22,20 @@ export const fetchUserEpic = (action$, store) => action$.pipe(
 export const fetchCharacterEpic = (action$, store) => action$.pipe(
   ofType(types.FETCH_CHARACTER),
   mergeMap(() => ajax({
-    url: `https://swapi.co/api/people/${store.getState().character.nextCharacterId}`,
+    url: 'http://localhost:8010/call',
+    method: 'post',
+    data: {
+      method: 'get',
+      path: `people/${store.getState().character.nextCharacterId}`,
+    },
   }).pipe(
-    mergeMap(response =>
-      of(actions.fetchCharacterSuccess(
-        response.body,
-        true,
-      ))),
-    catchError(error =>
-      of(actions.fetchCharacterFailure(
-        error.response.body,
-        false,
-      ))),
+    mergeMap(response => of(actions.fetchCharacterSuccess(
+      response.body,
+      true,
+    ))),
+    catchError(error => of(actions.fetchCharacterFailure(
+      error.response.body,
+      false,
+    ))),
   )),
 )
