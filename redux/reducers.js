@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 
-import character from './ducks/character'
+import Character from './ducks/Character'
 
 export default combineReducers({
-  character,
+  Character,
 })

@@ -1,6 +1,6 @@
 import withRedux from 'next-redux-wrapper'
 import initStore from '../redux'
-import Index from '../containers/Index'
+import Another from '../containers/Another'
 import * as actions from '../redux/ducks/Character/actions'
 
 export default withRedux(
@@ -10,4 +10,4 @@ export default withRedux(
     startFetchingCharacters: actions.startFetchingCharacters,
     stopFetchingCharacters: actions.stopFetchingCharacters,
   },
-)(Index)
+)(Another)

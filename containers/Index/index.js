@@ -3,12 +3,13 @@ import PropTypes from 'prop-types'
 import { of } from 'rxjs/observable/of'
 
 import { rootEpic } from '../../redux/epics'
-import * as actions from '../../redux/ducks/character/actions'
+import * as actions from '../../redux/ducks/Character/actions'
 
 import Index from './component/index'
 
 class Counter extends React.Component {
-  static async getInitialProps({ store, isServer }) {
+  static async getInitialProps(props) {
+    const { store, isServer } = props
     const resultAction = await rootEpic(
       of(actions.fetchCharacter(isServer)),
       store,

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 
-import Info from '../../../../components/Info'
+import Info from '../../../../../components/Info'
 
 const mapStateToProps = state => ({
   data: state.Character.data,

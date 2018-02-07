@@ -7,7 +7,7 @@ const INITIAL_STATE = {
   nextCharacterId: 1,
 }
 
-export default function character(state = INITIAL_STATE, { type, payload }) {
+export default function Character(state = INITIAL_STATE, { type, payload }) {
   switch (type) {
     case types.FETCH_CHARACTER_SUCCESS:
       return {

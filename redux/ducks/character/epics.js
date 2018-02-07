@@ -7,26 +7,26 @@ import ajax from 'universal-rx-request'
 import * as actions from './actions'
 import * as types from './types'
 
-export const fetchUserEpic = (action$, store) => action$.pipe(
+export const fetchUserEpic = (action$, isServer) => action$.pipe(
   ofType(types.START_FETCHING_CHARACTERS),
-  mergeMap(() => interval(3000).pipe(
+  mergeMap(() => interval(10000).pipe(
     mergeMap(() =>
       of(actions.fetchCharacter({
-        isServer: store.getState().character.isFetchedOnServer,
+        isServer,
       }))),
     takeUntil(action$.ofType(types.STOP_FETCHING_CHARACTERS)),
   )),
 )
 
 
-export const fetchCharacterEpic = (action$, store) => action$.pipe(
+export const fetchCharacterEpic = (action$, id) => action$.pipe(
   ofType(types.FETCH_CHARACTER),
   mergeMap(() => ajax({
     url: 'http://localhost:8010/call',
     method: 'post',
     data: {
       method: 'get',
-      path: `people/${store.getState().character.nextCharacterId}`,
+      path: `people/${id}`,
     },
   }).pipe(
     mergeMap(response => of(actions.fetchCharacterSuccess(
