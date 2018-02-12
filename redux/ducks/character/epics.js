@@ -9,17 +9,17 @@ import * as types from './types'
 
 export const stopFetchingCharactersEpic = action$ =>
   action$
-    .filter(action => action.type === types.PING)
+    .filter(action => action.type === types.STOP_FETCHING_CHARACTERS)
     .mapTo(actions.stopFetchingCharacters())
 
-export const fetchCharacterEpic = action$ => action$.pipe(
+export const fetchCharacterEpic = (action$, id) => action$.pipe(
   ofType(types.FETCH_CHARACTER),
   switchMap(() => ajax({
     url: 'http://localhost:8010/call',
     method: 'post',
     data: {
       method: 'get',
-      path: 'people/1',
+      path: `people/${id}`,
     },
   })
     .map(response => actions.fetchCharacterSuccess(
