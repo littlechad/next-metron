@@ -1,9 +1,11 @@
 import { connect } from 'react-redux'
 
-import Info from '../../../../components/Info'
+import Info from '../../../components/Info'
 
-export default connect(state => ({
+const mapStateToProps = state => ({
   data: state.Character.data,
   error: state.Character.error,
   isFetchedOnServer: state.Character.isFetchedOnServer,
-}))(Info)
+})
+
+export default connect(mapStateToProps)(Info)

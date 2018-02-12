@@ -1,13 +1,12 @@
 import withRedux from 'next-redux-wrapper'
 import initStore from '../redux'
-import Index from '../containers/Index'
-import * as actions from '../redux/ducks/Character/actions'
+import Index from './index/container'
+import { stopFetchingCharacters } from '../redux/ducks/Character/actions'
 
 export default withRedux(
   initStore,
   null,
   {
-    startFetchingCharacters: actions.startFetchingCharacters,
-    stopFetchingCharacters: actions.stopFetchingCharacters,
+    stopFetchingCharacters,
   },
 )(Index)

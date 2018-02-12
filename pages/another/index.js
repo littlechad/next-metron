@@ -1,7 +1,7 @@
 import withRedux from 'next-redux-wrapper'
-import initStore from '../redux'
-import Another from '../containers/Another'
-import * as actions from '../redux/ducks/Character/actions'
+import initStore from '../../redux'
+import Another from './container'
+import * as actions from '../../redux/ducks/Character/actions'
 
 export default withRedux(
   initStore,

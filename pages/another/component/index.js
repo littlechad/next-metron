@@ -2,9 +2,9 @@ import React from 'react'
 import Link from 'next/link'
 import Helmet from 'react-helmet'
 
-import Info from './info'
+import Info from '../container/info'
 
-const Index = () => (
+const Another = () => (
   <div>
     <Helmet
       title="Ini index | Hello next.js!"
@@ -25,4 +25,4 @@ const Index = () => (
   </div>
 )
 
-export default Index
+export default Another

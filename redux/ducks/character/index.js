@@ -3,26 +3,36 @@ import * as types from './types'
 const INITIAL_STATE = {
   data: {},
   error: {},
-  isFetchedOnServer: false,
   nextCharacterId: 1,
+  status: false,
 }
 
-export default function Character(state = INITIAL_STATE, { type, payload }) {
+const Character = (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
+    case types.START_FETCHING_CHARACTERS:
+      return {
+        ...state,
+        status: true,
+      }
+    case types.STOP_FETCHING_CHARACTERS:
+      return {
+        ...state,
+        status: false,
+      }
     case types.FETCH_CHARACTER_SUCCESS:
       return {
         ...state,
         data: payload.response,
-        isFetchedOnServer: payload.isServer,
         nextCharacterId: state.nextCharacterId + 1,
       }
     case types.FETCH_CHARACTER_FAILURE:
       return {
         ...state,
         error: payload.error,
-        isFetchedOnServer: payload.isServer,
       }
     default:
       return state
   }
 }
+
+export default Character

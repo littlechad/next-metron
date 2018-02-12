@@ -1,14 +1,21 @@
-import { createStore, applyMiddleware } from 'redux'
+import 'rxjs'
 import thunkMiddleware from 'redux-thunk'
+import { createStore, applyMiddleware } from 'redux'
 import { createLogger } from 'redux-logger'
 import { createEpicMiddleware } from 'redux-observable'
-import reducers from './reducers'
-import { rootEpic } from './epics'
+import { rootEpic, rootReducer } from './modules/root'
+
+const epicMiddleware = createEpicMiddleware(rootEpic)
 
 export default function initStore(initialState) {
-  const epicMiddleware = createEpicMiddleware(rootEpic)
-  const logger = createLogger({ collapsed: true })
-  const reduxMiddleware = applyMiddleware(thunkMiddleware, epicMiddleware, logger)
-
-  return createStore(reducers, initialState, reduxMiddleware)
+  const store = createStore(
+    rootReducer,
+    initialState,
+    applyMiddleware(
+      epicMiddleware,
+      thunkMiddleware,
+      createLogger({ collapsed: true }),
+    ),
+  )
+  return store
 }

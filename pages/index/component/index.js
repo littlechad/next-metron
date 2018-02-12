@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import Helmet from 'react-helmet'
 
-import Info from './Info'
+import Info from '../container/info'
 
 const Index = () => (
   <div>
