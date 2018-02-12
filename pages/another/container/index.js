@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { of } from 'rxjs/observable/of'
 
 import { rootEpic } from '../../../redux/epics'
-import * as actions from '../../../redux/ducks/Character/actions'
+import { startFetchingCharacters } from '../../../redux/ducks/Character/actions'
 
 import Another from '../component'
 
@@ -14,11 +14,12 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   async setInitialCharacter(nextCharacterId) {
-    const resultAction = await rootEpic(
-      of(actions.fetchCharacter(nextCharacterId)),
-      nextCharacterId,
-    ).toPromise()
-    dispatch(resultAction)
+    // const epic = of(startFetchingCharacters())
+    // const resultAction = await rootEpics(
+    //   epic,
+    //   nextCharacterId,
+    // ).toPromise()
+    dispatch(startFetchingCharacters(nextCharacterId))
   },
 })
 

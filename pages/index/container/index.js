@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { of } from 'rxjs/observable/of'
 
 import rootEpics from '../../../redux/root/epics'
-import { fetchCharacter } from '../../../redux/ducks/Character/actions'
+import { startFetchingCharacters } from '../../../redux/ducks/Character/actions'
 
 import Index from '../component'
 
@@ -13,17 +13,14 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  async setInitialCharacter(nextCharacterId) {
-    const epic = of(fetchCharacter(nextCharacterId))
-    const resultAction = await rootEpics(
-      epic,
-      nextCharacterId,
-    ).toPromise()
+  async setInitialCharacter() {
+    const epic = of(startFetchingCharacters())
+    const resultAction = await rootEpics(epic).toPromise()
     dispatch(resultAction)
   },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)((props) => {
-  props.setInitialCharacter(props.nextCharacterId)
+  props.setInitialCharacter()
   return (<Index />)
 })

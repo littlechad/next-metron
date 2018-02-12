@@ -1,8 +1,15 @@
 import * as types from './types'
 
-export const fetchCharacter = id => ({
+export const startFetchingCharacters = () => ({
+  type: types.START_FETCHING_CHARACTERS,
+})
+
+export const stopFetchingCharacters = () => ({
+  type: types.STOP_FETCHING_CHARACTERS,
+})
+
+export const fetchCharacter = () => ({
   type: types.FETCH_CHARACTER,
-  payload: { id },
 })
 
 export const fetchCharacterSuccess = response => ({
@@ -13,8 +20,4 @@ export const fetchCharacterSuccess = response => ({
 export const fetchCharacterFailure = error => ({
   type: types.FETCH_CHARACTER_FAILURE,
   payload: { error },
-})
-
-export const stopFetchingCharacters = () => ({
-  type: types.STOP_FETCHING_CHARACTERS,
 })
