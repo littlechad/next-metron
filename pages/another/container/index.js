@@ -23,7 +23,6 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)((props) => {
-  console.log('props: ', props)
   props.setInitialCharacter(props.nextCharacterId)
   return (<Another />)
 })

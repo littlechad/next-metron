@@ -3,19 +3,18 @@ import thunkMiddleware from 'redux-thunk'
 import { createStore, applyMiddleware } from 'redux'
 import { createLogger } from 'redux-logger'
 import { createEpicMiddleware } from 'redux-observable'
-import { rootEpic, rootReducer } from './modules/root'
 
-const epicMiddleware = createEpicMiddleware(rootEpic)
+import rootEpics from './root/epics'
+import rootReducers from './root/reducers'
 
 export default function initStore(initialState) {
-  const store = createStore(
-    rootReducer,
+  const epicMiddleware = createEpicMiddleware(rootEpics)
+  const logger = createLogger({ collapsed: true })
+  const middlewares = applyMiddleware(thunkMiddleware, epicMiddleware, logger)
+
+  return createStore(
+    rootReducers,
     initialState,
-    applyMiddleware(
-      epicMiddleware,
-      thunkMiddleware,
-      createLogger({ collapsed: true }),
-    ),
+    middlewares,
   )
-  return store
 }
