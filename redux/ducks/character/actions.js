@@ -8,8 +8,9 @@ export const stopFetchingCharacters = () => ({
   type: types.STOP_FETCHING_CHARACTERS,
 })
 
-export const fetchCharacter = () => ({
+export const fetchCharacter = id => ({
   type: types.FETCH_CHARACTER,
+  payload: { id },
 })
 
 export const fetchCharacterSuccess = response => ({
