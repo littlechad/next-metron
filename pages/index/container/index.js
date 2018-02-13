@@ -1,38 +1,20 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { startFetchingCharacters, stopFetchingCharacters } from '../../../redux/ducks/Character/actions'
-import { ping } from '../../../redux/ducks/Ping/actions'
+import PropTypes from 'prop-types'
+import Component from '../component'
 
-import Index from '../component'
+class Index extends React.Component {
+  componentDidMount() {
+    this.props.setInitialCharacter(this.props.id)
+  }
 
-const mapStateToProps = state => ({
-  id: state.Character.id,
-  isPinging: state.Ping.isPinging,
-})
+  render() {
+    return (<Component {...this.props} />)
+  }
+}
 
-const mapDispatchToProps = dispatch => ({
-  setInitialCharacter(id) {
-    dispatch(startFetchingCharacters(id))
-  },
-  startFetching(id) {
-    dispatch(startFetchingCharacters(id))
-  },
-  setPing() {
-    dispatch(ping())
-  },
-  stopFetching() {
-    dispatch(stopFetchingCharacters())
-  },
-})
+Index.propTypes = {
+  id: PropTypes.number.isRequired,
+  setInitialCharacter: PropTypes.func.isRequired,
+}
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(props => (<Index
-  id={props.id}
-  isPinging={props.isPinging}
-  setInitialCharacter={props.setInitialCharacter}
-  setPing={props.setPing}
-  stopFetching={props.stopFetching}
-  startFetching={props.startFetching}
-/>))
+export default Index
