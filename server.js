@@ -22,6 +22,7 @@ app
       const {
         Authorization, method, path, payloads, qs,
       } = req.body
+
       const headers = {
         'Content-Type': 'application/json',
       }

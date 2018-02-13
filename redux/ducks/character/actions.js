@@ -1,21 +1,24 @@
 import * as types from './types'
 
-export const startFetchingCharacters = () => ({
+export const startFetchingCharacters = id => ({
   type: types.START_FETCHING_CHARACTERS,
+  payload: { id },
 })
+
 export const stopFetchingCharacters = () => ({
   type: types.STOP_FETCHING_CHARACTERS,
 })
-export const fetchCharacter = isServer => ({
+
+export const fetchCharacter = () => ({
   type: types.FETCH_CHARACTER,
-  payload: { isServer },
-})
-export const fetchCharacterSuccess = (response, isServer) => ({
-  type: types.FETCH_CHARACTER_SUCCESS,
-  payload: { response, isServer },
 })
 
-export const fetchCharacterFailure = (error, isServer) => ({
+export const fetchCharacterSuccess = data => ({
+  type: types.FETCH_CHARACTER_SUCCESS,
+  payload: { data },
+})
+
+export const fetchCharacterFailure = error => ({
   type: types.FETCH_CHARACTER_FAILURE,
-  payload: { error, isServer },
+  payload: { error },
 })
