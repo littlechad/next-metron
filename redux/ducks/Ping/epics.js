@@ -1,14 +1,11 @@
 import 'rxjs'
 
-import * as actions from './actions'
 import * as types from './types'
 
-export const pingEpic = action$ =>
+const pingEpic = action$ =>
   action$
-    .filter(action => action.type === types.PING)
-    .mapTo(actions.ping())
+    .ofType(types.PING)
+    .delay(1000)
+    .mapTo({ type: types.PONG })
 
-export const pongEpic = action$ =>
-  action$
-    .filter(action => action.type === types.PONG)
-    .mapTo(actions.pong())
+export default pingEpic

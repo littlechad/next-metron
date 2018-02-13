@@ -5,5 +5,5 @@ export const ping = () => ({
 })
 
 export const pong = () => ({
-  type: types.PING,
+  type: types.PONG,
 })

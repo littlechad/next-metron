@@ -1,29 +1,38 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { of } from 'rxjs/observable/of'
-
-import rootEpics from '../../../redux/root/epics'
-import { fetchCharacter } from '../../../redux/ducks/Character/actions'
+import { startFetchingCharacters, stopFetchingCharacters } from '../../../redux/ducks/Character/actions'
+import { ping } from '../../../redux/ducks/Ping/actions'
 
 import Index from '../component'
 
 const mapStateToProps = state => ({
   id: state.Character.id,
-
+  isPinging: state.Ping.isPinging,
 })
 
 const mapDispatchToProps = dispatch => ({
-  async setInitialCharacter(id) {
-    const epic = of(fetchCharacter({ id }))
-    const resultAction = await rootEpics(
-      epic,
-      id,
-    ).toPromise()
-    dispatch(resultAction)
+  setInitialCharacter(id) {
+    dispatch(startFetchingCharacters(id))
+  },
+  startFetching(id) {
+    dispatch(startFetchingCharacters(id))
+  },
+  setPing() {
+    dispatch(ping())
+  },
+  stopFetching() {
+    dispatch(stopFetchingCharacters())
   },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)((props) => {
-  props.setInitialCharacter(props.id)
-  return (<Index />)
-})
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(props => (<Index
+  id={props.id}
+  isPinging={props.isPinging}
+  setInitialCharacter={props.setInitialCharacter}
+  setPing={props.setPing}
+  stopFetching={props.stopFetching}
+  startFetching={props.startFetching}
+/>))

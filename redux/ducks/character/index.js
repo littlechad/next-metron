@@ -11,9 +11,10 @@ const Character = (state = INITIAL_STATE, { type, payload }) => {
     case types.FETCH_CHARACTER_SUCCESS:
       return {
         ...state,
-        data: payload.response,
+        data: payload.data,
         id: state.id + 1,
       }
+
     case types.FETCH_CHARACTER_FAILURE:
       return {
         ...state,
