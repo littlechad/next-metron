@@ -5,7 +5,7 @@ const Info = ({
   data,
   error,
 }) => {
-  const message = Object.keys(error).length > 0
+  const content = Object.keys(error).length > 0
     ? (<p>We encountered and error.</p>)
     : (
       <article>
@@ -18,7 +18,7 @@ const Info = ({
 
   return (
     <div className="CharacterInfo">
-      {message}
+      {content}
     </div>
   )
 }

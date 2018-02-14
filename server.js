@@ -3,11 +3,12 @@ const chalk = require('chalk')
 const express = require('express')
 const fetch = require('node-fetch')
 const next = require('next')
+const { apiHost, env, port } = require('./config')
 
-const port = parseInt(process.env.NODE_PORT, 10)
-const dev = process.env.NODE_ENV !== 'production'
+const dev = env !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
+
 
 app
   .prepare()
@@ -26,7 +27,7 @@ app
       const headers = {
         'Content-Type': 'application/json',
       }
-      const uri = `https://swapi.co/api/${path}`
+      const uri = `${apiHost}${path}`
 
       const options = {
         method, headers, qs: qs || {},

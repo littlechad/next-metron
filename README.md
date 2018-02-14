@@ -25,13 +25,13 @@ With a combination of [nextjs with redux observable](https://github.com/zeit/nex
 
 running in development
 
-	yarn dev
+    yarn dev
 
 running in production
 
-    mv env.example.sh env.sh && source env.sh
-	yarn run build
-	yarn start
+    mv .env.example .env && export $(cat .env | xargs)
+    yarn run build
+    yarn start
 
 ## Project structure
 
@@ -46,7 +46,7 @@ Root
     ├── env.example.sh
     ├── package.json
     └── yarn.lock
-       
+
 Components
 
     ...
@@ -68,7 +68,7 @@ Pages
     ...
     │   ├── index.js
         └── _document.js
-       
+
 Redux
 
     ├── redux
