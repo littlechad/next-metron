@@ -1,9 +1,9 @@
 import withRedux from 'next-redux-wrapper'
-import initStore from '../redux'
-import { startFetchingCharacters, stopFetchingCharacters } from '../redux/ducks/Character/actions'
-import { ping } from '../redux/ducks/Ping/actions'
+import initStore from '../../redux'
+import { startFetchingCharacters, stopFetchingCharacters } from '../../redux/ducks/Character/actions'
+import { ping } from '../../redux/ducks/Ping/actions'
 
-import Index from './index/container'
+import Other from './container'
 
 const mapStateToProps = state => ({
   data: state.Character.data,
@@ -31,4 +31,4 @@ export default withRedux(
   initStore,
   mapStateToProps,
   mapDispatchToProps,
-)(Index)
+)(Other)

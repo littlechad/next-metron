@@ -37,6 +37,7 @@ export default class extends Document {
           ]}
           />
           { this.helmetHeadComponents }
+          <link href="../static/theme.css" rel="stylesheet" />
         </Head>
         <body {...this.helmetBodyAttrComponents}>
           <Main />
