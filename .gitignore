@@ -59,3 +59,5 @@ typings/
 
 # Next related
 .next
+
+env.sh
