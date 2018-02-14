@@ -20,7 +20,7 @@ const Component = props => (
     <nav>
       {/* eslint-disable jsx-a11y/anchor-is-valid */}
       <Link href="/"><a>Go back home</a></Link><br />
-      <Link href="/another"><a>Navigate to another</a></Link><br />
+      <Link href="/toolbox"><a>Navigate to toolbox</a></Link><br />
       <Link href="/about"><a>Navigate to about</a></Link>
       {/* eslint-enable jsx-a11y/anchor-is-valid */}
       <br /><br />
