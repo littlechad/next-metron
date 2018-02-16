@@ -1,13 +1,37 @@
 import React from 'react'
 import Document, { Head, Main, NextScript } from 'next/document'
 import Helmet from 'react-helmet'
+import JssProvider from 'react-jss/lib/JssProvider'
+
+import getPageContext from 'utils/mui/getPageContext'
 
 export default class extends Document {
   static async getInitialProps(...args) {
     const documentProps = await super.getInitialProps(...args)
-    // see https://github.com/nfl/react-helmet#server-usage for more information
-    // 'head' was occupied by 'renderPage().head', we cannot use it
-    return { ...documentProps, helmet: Helmet.renderStatic() }
+    const pageContext = getPageContext()
+    const page = args[0].renderPage(Component => props => (
+      <JssProvider
+        registry={pageContext.sheetsRegistry}
+        generateClassName={pageContext.generateClassName}
+      >
+        <Component pageContext={pageContext} {...props} />
+      </JssProvider>
+    ))
+
+    /* eslint-disable react/no-danger */
+    return {
+      ...documentProps,
+      ...page,
+      pageContext,
+      styles: (
+        <style
+          id="jss-server-side"
+          dangerouslySetInnerHTML={{ __html: pageContext.sheetsRegistry.toString() }}
+        />
+      ),
+      helmet: Helmet.renderStatic(),
+    }
+    /* eslint-enable react/no-danger */
   }
 
   get helmetHtmlAttrComponents() {
@@ -25,6 +49,7 @@ export default class extends Document {
   }
 
   render() {
+    const { pageContext } = this.props
     return (
       <html {...this.helmetHtmlAttrComponents} lang="en">
         <Head>
@@ -32,12 +57,12 @@ export default class extends Document {
             htmlAttributes={{ lang: 'en' }}
             title="Hello next.js!"
             meta={[
-            { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-            { property: 'og:title', content: 'Hello next.js!' },
-          ]}
+              { name: 'viewport', content: 'user-scalable=0, initial-scale=1, minimum-scale=1, width=device-width, height=device-height' },
+              { name: 'theme-color', content: pageContext.theme.palette.primary[500] },
+              { property: 'og:title', content: 'Hello next.js!' },
+            ]}
           />
           { this.helmetHeadComponents }
-          <link href="../static/theme.css" rel="stylesheet" />
         </Head>
         <body {...this.helmetBodyAttrComponents}>
           <Main />

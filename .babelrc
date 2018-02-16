@@ -1,7 +1,4 @@
 {
-  "presets": [
-    "next/babel",
-  ],
   "env": {
     "development": {
       "plugins": ["inline-dotenv"]
@@ -9,5 +6,23 @@
     "production": {
       "plugins": ["transform-inline-environment-variables"]
     }
-  }
+  },
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "alias": {
+          "components": "./components",
+          "ducks": "./redux/ducks",
+          "layout": "./layout",
+          "pages": "./pages",
+          "static": "./static",
+          "utils": "./utils"
+        }
+      }
+    ]
+  ],
+  "presets": [
+    "next/babel",
+  ]
 }
