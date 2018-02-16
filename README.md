@@ -6,14 +6,17 @@
 
 Another React Next.js Boilerplate
 
-With a combination of [nextjs with redux observable](https://github.com/zeit/next.js/tree/canary/examples/with-redux-observable), [nextjs with custom express server](https://github.com/zeit/next.js/tree/canary/examples/custom-server-express), and [nextjs with react toolbox](https://github.com/zeit/next.js/tree/canary/examples/with-react-toolbox)
+With a combination of [nextjs with redux observable](https://github.com/zeit/next.js/tree/canary/examples/with-redux-observable) and [nextjs with custom express server](https://github.com/zeit/next.js/tree/canary/examples/custom-server-express)
 
 ## What's here?
 
 * SSR with next.js
-* custom server with express
-* redux and redux-observable
-* fractal project structure
+* Custom server with [express](https://expressjs.com/)
+* Redux and Redux-observable
+* [material-ui-next (v1)](https://material-ui-next.com/)
+* Global layout
+* Folder alias with babel-module-resolver
+* Fractal project structure
 * React class component - stateless component hybrid
 
 
@@ -25,11 +28,12 @@ With a combination of [nextjs with redux observable](https://github.com/zeit/nex
 
 running in development
 
+    mv .env.example .env && export $(cat .env | xargs)
     yarn dev
 
 running in production
 
-    mv .env.example .env && export $(cat .env | xargs)
+    mv .env.example .env && export $(cat .env | xargs) // change accordingly
     yarn run build
     yarn start
 
@@ -59,7 +63,7 @@ Pages
 
     ...
     ├── pages
-    │   ├── about
+    │   ├── index
     │   │   ├── component
     │   │   │   └── index.js
     │   │   ├── container
