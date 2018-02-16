@@ -1,42 +1,70 @@
 import React from 'react'
-import Link from 'next/link'
 import Helmet from 'react-helmet'
 import PropTypes from 'prop-types'
+import { withStyles } from 'material-ui/styles'
+import Button from 'material-ui/Button'
 
-import Info from '../../../components/Info'
+import hasMui from 'utils/mui/hasMui'
+import withLayoutMain from 'layout/Main'
+import Info from 'components/Info'
 
-const Index = props => (
-  <div>
-    <Helmet
-      title="Ini index | Hello next.js!"
-      meta={[
+const styles = theme => ({
+  buttonContainer: {
+    minWidth: 275,
+    width: '275px',
+    margin: '20px auto',
+    textAlign: 'center',
+  },
+  button: {
+    margin: theme.spacing.unit,
+  },
+})
+
+const Index = (props) => {
+  const { classes, ...infoProps } = props
+  return (
+    <div>
+      <Helmet
+        title="Ini index | Hello next.js!"
+        meta={[
         { property: 'og:title', content: 'ini index title' },
         { property: 'og:description', content: 'ini index description' },
       ]}
-    />
-    <h1>Index Page</h1>
-    <Info {...props} />
-    <br />
-    <nav>
-      {/* eslint-disable jsx-a11y/anchor-is-valid */}
-      <Link href="/other"><a>Navigate to other</a></Link><br />
-      <Link href="/toolbox"><a>Navigate to toolbox</a></Link><br />
-      <Link href="/about"><a>Navigate to about</a></Link>
-      {/* eslint-enable jsx-a11y/anchor-is-valid */}
-      <br /><br />
-      <button onClick={() => { props.setPing() }}>Start {props.isPinging ? 'pong' : 'ping'}ing</button>
-      <br /><br />
-      <button onClick={() => { props.stopFetching() }}>Stop fetching</button>
-      <br /><br />
-      <button onClick={() => { props.startFetching() }}>Start fetching</button>
-    </nav>
-  </div>
-)
+      />
+      <Info {...infoProps} />
+      <br />
+      <div className={classes.buttonContainer}>
+        <Button
+          variant="raised"
+          onClick={() => { props.setPing() }}
+          className={classes.button}
+        >Start {props.isPinging ? 'pong' : 'ping'}ing
+        </Button>
+        <Button
+          variant="raised"
+          color="primary"
+          onClick={() => { props.stopFetching() }}
+          className={classes.button}
+        >Stop fetching
+        </Button>
+        <Button
+          variant="raised"
+          color="secondary"
+          onClick={() => { props.startFetching() }}
+          className={classes.button}
+        >Start fetching
+        </Button>
+      </div>
+    </div>
+  )
+}
 
 Index.propTypes = {
+  classes: PropTypes.shape({}).isRequired,
   isPinging: PropTypes.bool.isRequired,
   setPing: PropTypes.func.isRequired,
   stopFetching: PropTypes.func.isRequired,
   startFetching: PropTypes.func.isRequired,
 }
-export default Index
+
+export default hasMui(withLayoutMain(withStyles(styles)(Index)))
