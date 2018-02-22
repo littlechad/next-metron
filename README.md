@@ -37,6 +37,11 @@ running in production
     yarn run build
     yarn start
 
+running using docker
+
+    mv .env.example .env
+    docker-compose up
+
 ## Project structure
 
 Root
