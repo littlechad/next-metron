@@ -3,7 +3,7 @@ import Document, { Head, Main, NextScript } from 'next/document'
 import Helmet from 'react-helmet'
 import JssProvider from 'react-jss/lib/JssProvider'
 
-import getPageContext from 'utils/mui/getPageContext'
+import getPageContext from 'hoc/mui/getPageContext'
 
 export default class extends Document {
   static async getInitialProps(...args) {

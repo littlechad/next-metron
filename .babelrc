@@ -12,12 +12,13 @@
       "module-resolver",
       {
         "alias": {
+          "config": "./config",
           "components": "./components",
           "ducks": "./redux/ducks",
-          "layout": "./layout",
+          "hoc": "./hoc",
+          "lib": "./lib",
           "pages": "./pages",
-          "static": "./static",
-          "utils": "./utils"
+          "static": "./static"
         }
       }
     ]

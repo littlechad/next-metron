@@ -4,14 +4,15 @@ import PropTypes from 'prop-types'
 import { withStyles } from 'material-ui/styles'
 import Button from 'material-ui/Button'
 
-import hasMui from 'utils/mui/hasMui'
-import withLayoutMain from 'layout/Main'
+import hasMui from 'hoc/mui/hasMui'
+
+import withLayout from 'hoc/layout/Primary'
 import Info from 'components/Info'
+
+import Signin from './Signin'
 
 const styles = theme => ({
   buttonContainer: {
-    minWidth: 275,
-    width: '275px',
     margin: '20px auto',
     textAlign: 'center',
   },
@@ -25,10 +26,10 @@ const Index = (props) => {
   return (
     <div>
       <Helmet
-        title="Ini index | Hello next.js!"
+        title="This is index | Hello next.js!"
         meta={[
-        { property: 'og:title', content: 'ini index title' },
-        { property: 'og:description', content: 'ini index description' },
+        { property: 'og:title', content: 'This is index\'s title' },
+        { property: 'og:description', content: 'This is index\'s description' },
       ]}
       />
       <Info {...infoProps} />
@@ -55,6 +56,13 @@ const Index = (props) => {
         >Start fetching
         </Button>
       </div>
+      <Signin
+        social={props.social}
+        isSigninEligible={props.isSigninEligible}
+        handleFacebookLoginCallback={props.handleFacebookLoginCallback}
+        handleGoogleLoginSuccess={props.handleGoogleLoginSuccess}
+        handleGoogleLoginFailure={props.handleGoogleLoginFailure}
+      />
     </div>
   )
 }
@@ -65,6 +73,15 @@ Index.propTypes = {
   setPing: PropTypes.func.isRequired,
   stopFetching: PropTypes.func.isRequired,
   startFetching: PropTypes.func.isRequired,
+
+  isSigninEligible: PropTypes.bool.isRequired,
+  social: PropTypes.shape({
+    facebook: PropTypes.shape({}).isRequired,
+    google: PropTypes.shape({}).isRequired,
+  }).isRequired,
+  handleFacebookLoginCallback: PropTypes.func.isRequired,
+  handleGoogleLoginSuccess: PropTypes.func.isRequired,
+  handleGoogleLoginFailure: PropTypes.func.isRequired,
 }
 
-export default hasMui(withLayoutMain(withStyles(styles)(Index)))
+export default hasMui(withLayout(withStyles(styles)(Index)))
