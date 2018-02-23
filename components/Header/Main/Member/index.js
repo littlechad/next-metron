@@ -14,6 +14,7 @@ import Typography from 'material-ui/Typography'
 
 
 import Home from 'mdi-material-ui/Home'
+import AccountCircleIcon from 'material-ui-icons/AccountCircle'
 import LogoutVariant from 'mdi-material-ui/LogoutVariant'
 import RoomIcon from 'material-ui-icons/Room'
 
@@ -26,14 +27,15 @@ const Member = (props) => {
     classes, toggleDrawer, toggle, auth,
   } = props
   return (
-    <AppBar position="static" color="inherit" className={`bar ${classes.bar}`}>
+    <AppBar position="static" color="primary" className={`bar ${classes.bar}`}>
       <Toolbar>
-        <Typography variant="title" color="inherit" className={classes.flex}>
-          {/* eslint-disable jsx-a11y/anchor-is-valid */}
-          <Link route="/">
-            <a><span className="matalenta">Matalenta</span></a>
-          </Link>
-          {/* eslint-enable jsx-a11y/anchor-is-valid */}
+        <Typography
+          variant="title"
+          color="inherit"
+          className={classes.flex}
+          onClick={() => {}}
+        >
+          Metron
         </Typography>
         <div>
           <IconButton
@@ -56,11 +58,10 @@ const Member = (props) => {
             color="inherit"
           >
             <Avatar
-              alt={auth.me.username}
-              src={auth.me.profilePic}
               className={classNames(classes.avatar, classes.smallAvatar)}
               onClick={toggleDrawer('drawer', toggle.open)}
-            />
+            ><AccountCircleIcon />
+            </Avatar>
           </IconButton>
           <Drawer
             anchor="right"
@@ -85,19 +86,6 @@ const Member = (props) => {
                   onClick={props.goto({
                     page: '/',
                     params: { },
-                    toggleName: 'drawer',
-                  })}
-                />
-              </ListItem>
-              <ListItem button>
-                <ListItemIcon>
-                  <RoomIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary="My Room"
-                  onClick={props.goto({
-                    page: 'room',
-                    params: { username: auth.me.username },
                     toggleName: 'drawer',
                   })}
                 />

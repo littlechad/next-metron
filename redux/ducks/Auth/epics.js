@@ -1,42 +1,23 @@
 import 'rxjs'
 import { of } from 'rxjs/observable/of'
-import ajax from 'universal-rx-request'
+import { removeToken } from 'lib/auth'
 
-import { isAuthenticated, getToken, removeToken } from 'lib/auth'
+import { meData } from 'config/fakes'
 
-import { authSuccess, authFailure, signoutSuccess } from './actions'
+import { authSuccess, signoutSuccess } from './actions'
 import * as types from './types'
-
-const host = process.env.SERVER_HOST
-const call = process.env.SERVER_CALL
-const port = process.env.PORT
-const url = `${host}:${port}${call}`
 
 export const authEpic = action$ => action$
   .ofType(types.AUTH)
   .mergeMap(() => {
-    const params = {
-      url,
-      method: 'post',
-      data: {
-        method: 'post',
-        path: '/auth/me',
-        Authorization: isAuthenticated() ? getToken() : '',
-      },
+    const {
+      id, email, username, profilePic,
+    } = meData
+    const { token, expires } = meData.auth
+    const me = {
+      id, email, username, token, expires, profilePic,
     }
-    return ajax(params)
-      .map((response) => {
-        const {
-          id, email, username, profilePic,
-        } = response.body
-        const { token, expires } = response.body.auth
-        const me = {
-          id, email, username, token, expires, profilePic,
-        }
-        return authSuccess(me)
-      })
-      .catch(error => of(authFailure(error)))
-      .takeUntil(action$.ofType(types.STOP_AUTH))
+    return of(authSuccess(me))
   })
 
 export const signoutEpic = action$ => action$
