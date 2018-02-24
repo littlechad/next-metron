@@ -6,7 +6,7 @@ import Button from 'material-ui/Button'
 
 import hasMui from 'hoc/mui/hasMui'
 
-import withLayout from 'hoc/layout/Primary'
+import withLayout from 'hoc/layout'
 import Info from 'components/Info'
 
 import Signin from './Signin'
