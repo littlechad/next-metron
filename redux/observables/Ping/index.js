@@ -1,11 +1,11 @@
 import 'rxjs'
 
-import * as types from './types'
+import { PING, PONG } from 'ducks/Ping'
 
 const pingEpic = action$ =>
   action$
-    .ofType(types.PING)
+    .ofType(PING)
     .delay(1000)
-    .mapTo({ type: types.PONG })
+    .mapTo({ type: PONG })
 
 export default pingEpic

@@ -1,0 +1,12 @@
+version: "2"
+
+services:
+  next-metron:
+    container_name: "next-metron"
+    image: next-metron:latest
+    build:
+      context: .
+      dockerfile: ./dockerfiles/dev.docker
+    env_file: .env
+    ports:
+      - "${PORT}:${PORT}"

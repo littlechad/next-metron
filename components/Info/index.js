@@ -7,8 +7,8 @@ import Typography from 'material-ui/Typography'
 
 const styles = theme => ({
   card: {
-    minWidth: 275,
-    width: '275px',
+    minWidth: 400,
+    width: '400px',
     margin: '20px auto',
   },
   bullet: {

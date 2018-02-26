@@ -4,10 +4,11 @@ const express = require('express')
 const fetch = require('node-fetch')
 const next = require('next')
 const { apiHost, env, port } = require('./config')
+const routes = require('./config/routes')
 
 const dev = env !== 'production'
 const app = next({ dev })
-const handle = app.getRequestHandler()
+const handler = routes.getRequestHandler(app)
 
 
 app
@@ -17,38 +18,37 @@ app
 
     server.use(bodyParser.json())
 
-    server.get('*', (req, res) => handle(req, res))
+    server.get('*', (req, res) => handler(req, res))
 
     server.post('/call', (req, res) => {
       const {
-        Authorization, method, path, payloads, qs,
+        Authorization, method, path, payloads,
       } = req.body
 
       const headers = {
         'Content-Type': 'application/json',
       }
-      const uri = `${apiHost}${path}`
+      let uri = `${apiHost}${path}`
 
       const options = {
-        method, headers, qs: qs || {},
+        method, headers,
       }
 
       if (Authorization) {
         options.headers.Authorization = Authorization
       }
 
+      if (method === 'GET') {
+        const query = JSON.stringify(payloads.qs)
+        uri = `${uri}?string=${query}`
+      } else {
+        options.body = JSON.stringify(payloads)
+      }
+
       /* eslint-disable no-console */
       console.log(`${chalk.blue('[API CALL]:')} ${chalk.green(method)} ${chalk.white(uri)}`)
       console.log(`${chalk.green('[BODY]:')} ${chalk.green(JSON.stringify(options))}`)
       /* eslint-enable no-console */
-
-      if (method === 'GET') {
-        Object.assign(options.qs, payloads)
-      } else {
-        options.body = payloads
-        options.qs = qs
-      }
-
       return fetch(uri, options)
         .then(response => response.json())
         .then(response => res.json(response))
