@@ -1,14 +1,14 @@
 import { combineEpics } from 'redux-observable'
-import { authEpic, signoutEpic } from '../ducks/Auth/epics'
-import { fetchCharacterEpic, startFetchingCharactersEpic } from '../ducks/Character/epics'
-import pingEpic from '../ducks/Ping/epics'
-import { signinEpic, signinSuccessEpic } from '../ducks/Signin/epics'
-import { userFetchEpic, userSetUsernameEpic } from '../ducks/User/epics'
+import { authEpic, signoutEpic } from 'observables/Auth'
+import { characterFetchEpic, characterFetchStartEpic } from 'observables/Character'
+import pingEpic from 'observables/Ping'
+import { signinEpic, signinSuccessEpic } from 'observables/Signin'
+import { userFetchEpic, userSetUsernameEpic } from 'observables/User'
 
 const rootEpics = combineEpics(
   authEpic,
-  fetchCharacterEpic,
-  startFetchingCharactersEpic,
+  characterFetchEpic,
+  characterFetchStartEpic,
   pingEpic,
   signinEpic,
   signinSuccessEpic,

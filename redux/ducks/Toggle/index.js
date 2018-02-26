@@ -1,4 +1,5 @@
-import * as types from './types'
+export const DATA = 'DATA'
+export const PARAMS = 'PARAMS'
 
 const INITIAL_STATE = {
   name: '',
@@ -8,14 +9,14 @@ const INITIAL_STATE = {
 
 const Toggle = (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
-    case types.DATA:
+    case DATA:
       return {
         ...state,
         name: payload.name,
         open: payload.open,
       }
 
-    case types.PARAMS:
+    case PARAMS:
       return {
         ...state,
         params: payload.params,
@@ -25,5 +26,15 @@ const Toggle = (state = INITIAL_STATE, { type, payload }) => {
       return state
   }
 }
+
+export const toggle = data => ({
+  type: DATA,
+  payload: data,
+})
+
+export const setParams = params => ({
+  type: PARAMS,
+  payload: params,
+})
 
 export default Toggle

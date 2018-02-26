@@ -1,4 +1,11 @@
-import * as types from './types'
+export const START_AUTH = 'START_AUTH'
+export const STOP_AUTH = 'STOP_AUTH'
+export const AUTH = 'AUTH'
+export const AUTH_SUCCESS = 'AUTH_SUCCESS'
+export const AUTH_FAILURE = 'AUTH_FAILURE'
+export const ME = 'ME'
+export const SIGNOUT = 'SIGNOUT'
+export const SIGNOUT_SUCCESS = 'SIGNOUT_SUCCESS'
 
 const INITIAL_STATE = {
   error: {},
@@ -17,30 +24,30 @@ const INITIAL_STATE = {
 
 const Auth = (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
-    case types.SIGNOUT:
+    case SIGNOUT:
       return {
         ...state,
         isAuthenticated: false,
       }
 
-    case types.SIGNOUT_SUCCESS:
+    case SIGNOUT_SUCCESS:
       return {
         ...state,
       }
 
-    case types.AUTH:
+    case AUTH:
       return {
         ...state,
         isLoading: true,
       }
 
-    case types.STOP_AUTH:
+    case STOP_AUTH:
       return {
         ...state,
         isLoading: false,
       }
 
-    case types.AUTH_SUCCESS:
+    case AUTH_SUCCESS:
       return {
         ...state,
         isAuthenticated: true,
@@ -48,7 +55,7 @@ const Auth = (state = INITIAL_STATE, { type, payload }) => {
         me: payload.me,
       }
 
-    case types.AUTH_FAILURE:
+    case AUTH_FAILURE:
       return {
         ...state,
         isLoading: false,
@@ -62,5 +69,32 @@ const Auth = (state = INITIAL_STATE, { type, payload }) => {
       return state
   }
 }
+
+export const auth = () => ({
+  type: AUTH,
+})
+
+export const stopAuth = () => ({
+  type: STOP_AUTH,
+})
+
+export const authSuccess = me => ({
+  type: AUTH_SUCCESS,
+  payload: { me },
+})
+
+export const authFailure = error => ({
+  type: AUTH_FAILURE,
+  payload: { error },
+})
+
+export const signout = () => ({
+  type: SIGNOUT,
+})
+
+export const signoutSuccess = me => ({
+  type: SIGNOUT_SUCCESS,
+  payload: { me },
+})
 
 export default Auth

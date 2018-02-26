@@ -1,4 +1,5 @@
-import * as types from './types'
+export const PING = 'PING'
+export const PONG = 'PONG'
 
 const INITIAL_STATE = {
   isPinging: false,
@@ -6,15 +7,23 @@ const INITIAL_STATE = {
 
 const Ping = (state = INITIAL_STATE, { type }) => {
   switch (type) {
-    case types.PING:
+    case PING:
       return { isPinging: true }
 
-    case types.PONG:
+    case PONG:
       return { isPinging: false }
 
     default:
       return state
   }
 }
+
+export const ping = () => ({
+  type: PING,
+})
+
+export const pong = () => ({
+  type: PONG,
+})
 
 export default Ping

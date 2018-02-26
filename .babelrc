@@ -17,6 +17,7 @@
           "ducks": "./redux/ducks",
           "hoc": "./hoc",
           "lib": "./lib",
+          "observables": "./redux/observables",
           "pages": "./pages",
           "static": "./static"
         }

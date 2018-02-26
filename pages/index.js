@@ -1,13 +1,19 @@
 import withRedux from 'next-redux-wrapper'
+
 import {
   signin,
   signinSetType,
   signinSetIsEligible,
-} from 'ducks/Signin/actions'
+} from 'ducks/Signin'
+
+import {
+  characterFetchStart,
+  characterFetchStop,
+} from 'ducks/Character'
+
+import { ping } from 'ducks/Ping'
 
 import initStore from '../redux'
-import { startFetchingCharacters, stopFetchingCharacters } from '../redux/ducks/Character/actions'
-import { ping } from '../redux/ducks/Ping/actions'
 
 import Index from './index/container'
 
@@ -34,16 +40,16 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   setInitialCharacter(id) {
-    dispatch(startFetchingCharacters(id))
+    dispatch(characterFetchStart(id))
   },
   startFetching(id) {
-    dispatch(startFetchingCharacters(id))
+    dispatch(characterFetchStart(id))
   },
   setPing() {
     dispatch(ping())
   },
   stopFetching() {
-    dispatch(stopFetchingCharacters())
+    dispatch(characterFetchStop())
   },
   handleFacebookLoginClick() {
     return (e) => {

@@ -1,8 +1,0 @@
-export const START_AUTH = 'START_AUTH'
-export const STOP_AUTH = 'STOP_AUTH'
-export const AUTH = 'AUTH'
-export const AUTH_SUCCESS = 'AUTH_SUCCESS'
-export const AUTH_FAILURE = 'AUTH_FAILURE'
-export const ME = 'ME'
-export const SIGNOUT = 'SIGNOUT'
-export const SIGNOUT_SUCCESS = 'SIGNOUT_SUCCESS'

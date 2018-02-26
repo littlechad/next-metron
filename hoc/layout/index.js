@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { auth, signout } from 'ducks/Auth/actions'
-import { toggle } from 'ducks/Toggle/actions'
+import { auth, signout } from 'ducks/Auth'
+import { toggle } from 'ducks/Toggle'
 
 import { isAuthenticated, getToken } from 'lib/auth'
 

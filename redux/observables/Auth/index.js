@@ -4,11 +4,15 @@ import { removeToken } from 'lib/auth'
 
 import { meData } from 'config/fakes'
 
-import { authSuccess, signoutSuccess } from './actions'
-import * as types from './types'
+import {
+  AUTH,
+  SIGNOUT,
+  authSuccess,
+  signoutSuccess,
+} from 'ducks/Auth'
 
 export const authEpic = action$ => action$
-  .ofType(types.AUTH)
+  .ofType(AUTH)
   .mergeMap(() => {
     const {
       id, email, username, profilePic,
@@ -21,7 +25,7 @@ export const authEpic = action$ => action$
   })
 
 export const signoutEpic = action$ => action$
-  .ofType(types.SIGNOUT)
+  .ofType(SIGNOUT)
   .mergeMap(() => {
     removeToken()
     return of(signoutSuccess())
