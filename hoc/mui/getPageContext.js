@@ -1,20 +1,26 @@
 /* eslint-disable no-underscore-dangle */
 import { SheetsRegistry } from 'jss'
 import { createMuiTheme, createGenerateClassName } from 'material-ui/styles'
-import purple from 'material-ui/colors/purple'
-import green from 'material-ui/colors/green'
+import blue from 'material-ui/colors/blue'
+import red from 'material-ui/colors/red'
+import grey from 'material-ui/colors/grey'
 
 const theme = createMuiTheme({
   palette: {
     primary: {
-      light: purple[300],
-      main: purple[500],
-      dark: purple[700],
+      light: red.A200,
+      main: red.A700,
+      dark: red[900],
     },
     secondary: {
-      light: green[300],
-      main: green[500],
-      dark: green[700],
+      light: blue[300],
+      main: blue[800],
+      dark: blue[900],
+    },
+    default: {
+      light: grey[100],
+      main: grey[50],
+      dark: grey[200],
     },
   },
 })

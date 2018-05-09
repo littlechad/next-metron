@@ -1,52 +1,90 @@
-import 'rxjs'
 import { of } from 'rxjs/observable/of'
-import { setToken } from 'lib/auth'
+import ajax from 'universal-rx-request'
 
-import { authData } from 'config/fakes'
+import { Router } from 'config/routes'
 
-import { auth } from 'ducks/Auth'
+import * as auth from 'lib/auth'
+
+import { authSetMe } from 'ducks/Auth'
 import {
   SIGNIN,
   SIGNIN_SUCCESS,
   signinSuccess,
+  signinFailure,
 } from 'ducks/Signin'
 
+const host = process.env.SERVER_HOST
+const call = process.env.SERVER_CALL
+const port = process.env.PORT
+const env = process.env.NODE_ENV
+const url = env === 'development' ? `${host}:${port}${call}` : `${host}${call}`
 
-/**
- * On a real scenario, we are assuming that below's epic will do a GET request to an API
- * that will sign, verify and return a Valid Token
- * You would probably write something like
- * export const signinEpic = (action$, store) => action$
-   .ofType(SIGNIN)
-   .mergeMap(() => {
-     const params = {
-       url,
-       method: 'post',
-       data: {
-         method: 'post',
-         path: `/your/signin/endpoint`,
-         payloads: { somePayload },
-       },
-     }
-     return ajax(params)
-       .map((response) => {
-         // const data = // do something with response
-         return signinSuccess(data) // dipatch to update the state
-       })
-       .catch(error => of(signinFailure(error)))
-       .takeUntil(action$.ofType(SIGNIN_STOP))
-   })
-  */
-
-
-export const signinEpic = action$ => action$
+export const signinEpic = (action$, store) => action$
   .ofType(SIGNIN)
-  .mergeMap(() => of(signinSuccess(authData)))
+  .mergeMap(() => {
+    const params = {
+      url,
+      method: 'post',
+      data: {
+        method: 'post',
+        path: `/auth/${store.getState().Signin.type}`,
+        payloads: store.getState().Signin.data,
+      },
+    }
+    return ajax(params)
+      .concatMap((response) => {
+        const { name, refreshToken } = response.body
+        if (refreshToken && name === 'TokenExpiredError') {
+          const refreshParams = {
+            url,
+            method: 'post',
+            data: {
+              method: 'post',
+              path: '/auth/refresh',
+              payloads: { refreshToken },
+            },
+          }
+          return ajax(refreshParams)
+            .concatMap((refreshResponse) => {
+              const { body } = refreshResponse
+              auth.setToken(body.auth.token)
 
-export const signinSuccessEpic = action$ =>
-  action$
-    .ofType(SIGNIN_SUCCESS)
-    .mergeMap(() => {
-      setToken(authData.token)
-      return of(auth())
-    })
+              const me = {
+                ...body.auth,
+                email: body.email,
+                username: body.username,
+                profilePic: body.profilePic,
+                id: body.id,
+              }
+              return [
+                authSetMe(me),
+                signinSuccess(),
+              ]
+            })
+            .catch(error => of(signinFailure(error)))
+        }
+        const { body } = response
+        const me = {
+          ...body.auth,
+          email: body.email,
+          username: body.username,
+          profilePic: body.profilePic,
+          id: body.id,
+        }
+        auth.setToken(body.auth.token)
+        return [
+          authSetMe(me),
+          signinSuccess(),
+        ]
+      })
+      .catch(error => of(signinFailure(error)))
+  })
+
+export const signinSuccessEpic = (action$, store) => action$
+  .ofType(SIGNIN_SUCCESS)
+  .mapTo(() => {
+    const route = store.getState().Error.referrer !== ''
+      ? store.getState().Error.referrer
+      : '/'
+    return Router.pushRoute(route)
+  })

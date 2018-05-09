@@ -1,11 +1,13 @@
-export const START_AUTH = 'START_AUTH'
-export const STOP_AUTH = 'STOP_AUTH'
-export const AUTH = 'AUTH'
-export const AUTH_SUCCESS = 'AUTH_SUCCESS'
-export const AUTH_FAILURE = 'AUTH_FAILURE'
-export const ME = 'ME'
-export const SIGNOUT = 'SIGNOUT'
-export const SIGNOUT_SUCCESS = 'SIGNOUT_SUCCESS'
+export const AUTH_ME = 'AUTH_ME'
+export const AUTH_ME_CLEAN = 'AUTH_ME_CLEAN'
+export const AUTH_ME_SUCCESS = 'AUTH_ME_SUCCESS'
+export const AUTH_ME_FAILURE = 'AUTH_ME_FAILURE'
+
+export const AUTH_SIGNOUT = 'AUTH_SIGNOUT'
+export const AUTH_SIGNOUT_SUCCESS = 'AUTH_SIGNOUT_SUCCESS'
+export const AUTH_SIGNOUT_FAILURE = 'AUTH_SIGNOUT_FAILURE'
+
+export const AUTH_ME_DATA = 'AUTH_ME_DATA'
 
 const INITIAL_STATE = {
   error: {},
@@ -13,41 +15,32 @@ const INITIAL_STATE = {
   isError: false,
   isLoading: false,
   me: {
-    id: '',
+    auth: {
+      token: '',
+      refreshToken: '',
+      expires: '',
+    },
     email: '',
     username: '',
     profilePic: '',
-    token: '',
-    expires: 0,
+    id: '',
   },
 }
 
 const Auth = (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
-    case SIGNOUT:
-      return {
-        ...state,
-        isAuthenticated: false,
-      }
-
-    case SIGNOUT_SUCCESS:
-      return {
-        ...state,
-      }
-
-    case AUTH:
+    case AUTH_ME:
       return {
         ...state,
         isLoading: true,
       }
 
-    case STOP_AUTH:
+    case AUTH_ME_CLEAN:
       return {
-        ...state,
-        isLoading: false,
+        ...payload.state,
       }
 
-    case AUTH_SUCCESS:
+    case AUTH_ME_SUCCESS:
       return {
         ...state,
         isAuthenticated: true,
@@ -55,7 +48,7 @@ const Auth = (state = INITIAL_STATE, { type, payload }) => {
         me: payload.me,
       }
 
-    case AUTH_FAILURE:
+    case AUTH_ME_FAILURE:
       return {
         ...state,
         isLoading: false,
@@ -65,35 +58,73 @@ const Auth = (state = INITIAL_STATE, { type, payload }) => {
         },
       }
 
+    case AUTH_SIGNOUT:
+      return {
+        ...state,
+        isAuthenticated: false,
+      }
+
+    case AUTH_SIGNOUT_SUCCESS:
+      return {
+        ...state,
+      }
+
+    case AUTH_SIGNOUT_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+        error: {
+          message: payload.error.message,
+        },
+      }
+
+    case AUTH_ME_DATA:
+      return {
+        ...state,
+        isAuthenticated: true,
+        me: payload.me,
+      }
+
     default:
       return state
   }
 }
 
-export const auth = () => ({
-  type: AUTH,
+export const authMe = () => ({
+  type: AUTH_ME,
 })
 
-export const stopAuth = () => ({
-  type: STOP_AUTH,
+export const authMeClean = (state = INITIAL_STATE) => ({
+  type: AUTH_ME_CLEAN,
+  payload: { state },
 })
 
-export const authSuccess = me => ({
-  type: AUTH_SUCCESS,
+export const authMeSuccess = me => ({
+  type: AUTH_ME_SUCCESS,
   payload: { me },
 })
 
-export const authFailure = error => ({
-  type: AUTH_FAILURE,
+export const authMeFailure = error => ({
+  type: AUTH_ME_FAILURE,
   payload: { error },
 })
 
-export const signout = () => ({
-  type: SIGNOUT,
+export const authSignout = () => ({
+  type: AUTH_SIGNOUT,
 })
 
-export const signoutSuccess = me => ({
-  type: SIGNOUT_SUCCESS,
+export const authSignoutSuccess = () => ({
+  type: AUTH_SIGNOUT_SUCCESS,
+})
+
+export const authSignoutFailure = error => ({
+  type: AUTH_SIGNOUT_FAILURE,
+  payload: { error },
+})
+
+export const authSetMe = me => ({
+  type: AUTH_ME_DATA,
   payload: { me },
 })
 

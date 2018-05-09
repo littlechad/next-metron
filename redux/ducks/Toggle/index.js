@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   name: '',
   open: false,
   params: {},
+  anchorEl: null,
 }
 
 const Toggle = (state = INITIAL_STATE, { type, payload }) => {
@@ -14,6 +15,7 @@ const Toggle = (state = INITIAL_STATE, { type, payload }) => {
         ...state,
         name: payload.name,
         open: payload.open,
+        anchorEl: payload.anchorEl || null,
       }
 
     case PARAMS:
@@ -36,5 +38,6 @@ export const setParams = params => ({
   type: PARAMS,
   payload: params,
 })
+
 
 export default Toggle

@@ -1,12 +1,12 @@
 version: "2"
 
 services:
-  next-metron:
-    container_name: "next-metron"
-    image: next-metron:latest
+  p-next-metron:
+    image: p-next-metron:latest
     build:
       context: .
-      dockerfile: ./dockerfiles/dev.docker
-    env_file: .env
+      dockerfile: ./dockerfiles/app.docker
+    container_name: "p-next-metron"
+    env_file: .env.production
     ports:
-      - "${PORT}:${PORT}"
+      - "3000:3000"

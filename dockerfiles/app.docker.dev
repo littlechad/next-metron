@@ -1,0 +1,19 @@
+FROM node:8-slim
+
+# Create app directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+# Bundle app source
+COPY ./ /usr/src/app
+
+RUN ls -la
+
+# Install app dependencies
+RUN yarn install &&\
+  yarn build &&\
+  yarn install
+
+EXPOSE 8010
+
+CMD ["yarn", "dev"]

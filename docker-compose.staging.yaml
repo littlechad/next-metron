@@ -1,0 +1,12 @@
+version: "2"
+
+services:
+  s-next-metron:
+    image: s-next-metron:latest
+    build:
+      context: .
+      dockerfile: ./dockerfiles/app.docker.staging
+    container_name: "s-next-metron"
+    env_file: .env
+    ports:
+      - "3000:3000"
