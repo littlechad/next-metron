@@ -1,85 +1,101 @@
 import React from 'react'
-import Helmet from 'react-helmet'
 import PropTypes from 'prop-types'
-import { withStyles } from 'material-ui/styles'
-import Button from 'material-ui/Button'
+import GoogleLogin from 'react-google-login'
 
+import { withStyles } from 'material-ui/styles'
+import withLayout from 'hoc/layout'
 import hasMui from 'hoc/mui/hasMui'
 
-import withLayout from 'hoc/layout'
-import Info from 'components/Info'
+import Button from 'material-ui/Button'
+import Grid from 'material-ui/Grid'
 
-import Signin from './Signin'
+import Google from 'mdi-material-ui/Google'
 
 const styles = theme => ({
-  buttonContainer: {
-    margin: '20px auto',
+  google: {
+    background: 'transparent',
+    width: 'auto',
+    paddingTop: '0',
+    paddingBottom: '0',
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit,
+  },
+  signin: {
+    color: '#80898e',
+    height: '400px',
+    padding: '60px 0',
     textAlign: 'center',
   },
-  button: {
-    margin: theme.spacing.unit,
+  featureLeft: {
+    color: '#333333',
+    background: '#fafafa',
+    height: '400px',
+    padding: '40px',
+    textAlign: 'right',
+  },
+  featureRight: {
+    height: '400px',
+    padding: '40px',
+    textAlign: 'left',
+  },
+  heading: {
+    margin: '40px 0',
+    fontSize: '28px',
+    fontWeight: '300',
+  },
+  text: {
+    margin: '50px 0',
+  },
+  colored: {
+    color: '#65727d',
   },
 })
 
 const Index = (props) => {
-  const { classes, ...infoProps } = props
+  const {
+    classes,
+    google,
+    handleGoogleLoginSuccess,
+    handleGoogleLoginFailure,
+  } = props
   return (
-    <div>
-      <Helmet
-        title="This is index | Hello next.js!"
-        meta={[
-        { property: 'og:title', content: 'This is index\'s title' },
-        { property: 'og:description', content: 'This is index\'s description' },
-      ]}
-      />
-      <Info {...infoProps} />
-      <br />
-      <div className={classes.buttonContainer}>
-        <Button
-          variant="raised"
-          onClick={() => { props.setPing() }}
-          className={classes.button}
-        >Start {props.isPinging ? 'pong' : 'ping'}ing
-        </Button>
-        <Button
-          variant="raised"
-          color="primary"
-          onClick={() => { props.stopFetching() }}
-          className={classes.button}
-        >Stop fetching
-        </Button>
-        <Button
-          variant="raised"
-          color="secondary"
-          onClick={() => { props.startFetching() }}
-          className={classes.button}
-        >Start fetching
-        </Button>
-      </div>
-      <Signin
-        social={props.social}
-        isSigninEligible={props.isSigninEligible}
-        handleFacebookLoginCallback={props.handleFacebookLoginCallback}
-        handleGoogleLoginSuccess={props.handleGoogleLoginSuccess}
-        handleGoogleLoginFailure={props.handleGoogleLoginFailure}
-      />
-    </div>
+    <Grid container spacing={0}>
+      <Grid item xs={12}>
+        <div className={classes.signin}>
+          <GoogleLogin
+            clientId={google.clientId}
+            scope={google.scope}
+            onSuccess={handleGoogleLoginSuccess}
+            onFailure={handleGoogleLoginFailure}
+            onRequest={() => {}}
+            offline={false}
+            autoLoad={false}
+            approvalPrompt="force"
+            tag="span"
+            className={classes.google}
+          >
+            <Button onClick={() => {}} variant="raised" size="large" color="primary">
+              <Google className={`${classes.leftIcon}`} /> Google
+            </Button>
+          </GoogleLogin>
+          <p>
+            By signing up, you agree to our<br />
+            <a href="/terms-of-use">Terms</a> &&nbsp;
+            <a href="/privacy-policy">Privacy Policy</a>.
+          </p>
+        </div>
+      </Grid>
+    </Grid>
   )
 }
 
 Index.propTypes = {
   classes: PropTypes.shape({}).isRequired,
-  isPinging: PropTypes.bool.isRequired,
-  setPing: PropTypes.func.isRequired,
-  stopFetching: PropTypes.func.isRequired,
-  startFetching: PropTypes.func.isRequired,
-
-  isSigninEligible: PropTypes.bool.isRequired,
-  social: PropTypes.shape({
-    facebook: PropTypes.shape({}).isRequired,
-    google: PropTypes.shape({}).isRequired,
+  google: PropTypes.shape({
+    clientId: PropTypes.string,
+    scope: PropTypes.string,
   }).isRequired,
-  handleFacebookLoginCallback: PropTypes.func.isRequired,
   handleGoogleLoginSuccess: PropTypes.func.isRequired,
   handleGoogleLoginFailure: PropTypes.func.isRequired,
 }

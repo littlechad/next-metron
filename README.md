@@ -6,18 +6,17 @@
 
 Another React Next.js Boilerplate
 
-With a combination of [nextjs with redux observable](https://github.com/zeit/next.js/tree/canary/examples/with-redux-observable) and [nextjs with custom express server](https://github.com/zeit/next.js/tree/canary/examples/custom-server-express)
+With a combination of [nextjs with redux observable](https://github.com/zeit/next.js/tree/canary/examples/with-redux-observable), [nextjs with custom express server](https://github.com/zeit/next.js/tree/canary/examples/custom-server-express), and [nextjs with react toolbox](https://github.com/zeit/next.js/tree/canary/examples/with-react-toolbox)
 
 ## What's here?
 
 * SSR with next.js
-* Custom server with [express](https://expressjs.com/)
-* Redux and Redux-observable
-* [material-ui-next (v1)](https://material-ui-next.com/)
-* Global layout
-* Folder alias with babel-module-resolver
-* Fractal project structure
+* custom server with express
+* redux and redux-observable
+* fractal project structure
 * React class component - stateless component hybrid
+* [Material UI v1] (https://material-ui-next.com/)
+* Fake Auth
 
 
 ## Usage
@@ -28,19 +27,13 @@ With a combination of [nextjs with redux observable](https://github.com/zeit/nex
 
 running in development
 
-    mv .env.example .env && export $(cat .env | xargs)
     yarn dev
 
 running in production
 
-    mv .env.example .env && export $(cat .env | xargs) // change accordingly
+    mv .env.example .env && export $(cat .env | xargs)
     yarn run build
     yarn start
-
-running using docker
-
-    mv .env.example .env
-    docker-compose up
 
 ## Project structure
 
@@ -68,7 +61,7 @@ Pages
 
     ...
     ├── pages
-    │   ├── index
+    │   ├── about
     │   │   ├── component
     │   │   │   └── index.js
     │   │   ├── container

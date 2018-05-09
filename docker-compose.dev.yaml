@@ -1,0 +1,24 @@
+version: "2"
+
+services:
+  d-next-metron:
+    image: d-next-metron:latest
+    build:
+      context: .
+      dockerfile: ./dockerfiles/app.docker.dev
+    container_name: "d-next-metron"
+    command: yarn dev
+    env_file: .env
+    ports:
+      - "8010:8010"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - default
+      - bridge-network
+networks:
+  default:
+    driver: bridge
+  bridge-network:
+    external: true

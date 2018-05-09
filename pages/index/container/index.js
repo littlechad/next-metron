@@ -1,20 +1,19 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+
+import { isAuthenticated, getToken } from 'lib/auth'
+
 import Component from '../component'
 
 class Index extends React.Component {
   componentDidMount() {
-    this.props.setInitialCharacter(this.props.id)
+    if (isAuthenticated() && getToken()) {
+      console.log('login success')
+    }
   }
 
   render() {
     return (<Component {...this.props} />)
   }
-}
-
-Index.propTypes = {
-  id: PropTypes.number.isRequired,
-  setInitialCharacter: PropTypes.func.isRequired,
 }
 
 export default Index

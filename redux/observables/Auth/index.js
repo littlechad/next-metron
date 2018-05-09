@@ -1,58 +1,86 @@
-import 'rxjs'
 import { of } from 'rxjs/observable/of'
-import { removeToken } from 'lib/auth'
+import ajax from 'universal-rx-request'
 
-import { meData } from 'config/fakes'
+import { isAuthenticated, getToken, removeToken, setToken } from 'lib/auth'
 
 import {
-  AUTH,
-  SIGNOUT,
-  authSuccess,
-  signoutSuccess,
+  AUTH_ME,
+  AUTH_SIGNOUT,
+  authMeSuccess,
+  authMeFailure,
+  authSignoutSuccess,
 } from 'ducks/Auth'
 
-/**
- * On a real scenario, we are assuming that below's epic will do a GET request to an API
- * that will sign, verify and return a User object
- * You would probably write something like
- * export const authEpic = action$ => action$
-   .ofType(AUTH)
-   .mergeMap(() => {
-     const params = {
-       url,
-       method: 'post',
-       data: {
-          method: 'post',
-          path: '/your/loggenin/user/endpoint',
-          //to also sent a `headers/Authorization`
-          Authorization: isAuthenticated() ? getToken() : '',
-       },
-     }
-     return ajax(params)
-       .map((response) => {
-         // const me = // do something with response
-         return authSuccess(me) // dipatch to update the state
-       })
-       .catch(error => of(authFailure(error)))
-   })
-  */
+const host = process.env.SERVER_HOST
+const call = process.env.SERVER_CALL
+const port = process.env.PORT
+const env = process.env.NODE_ENV
+const url = env === 'development' ? `${host}:${port}${call}` : `${host}${call}`
 
-export const authEpic = action$ => action$
-  .ofType(AUTH)
+export const authMeEpic = action$ => action$
+  .ofType(AUTH_ME)
   .mergeMap(() => {
-    const {
-      id, email, username, profilePic,
-    } = meData
-    const { token, expires } = meData.auth
-    const me = {
-      id, email, username, token, expires, profilePic,
+    const params = {
+      url,
+      method: 'post',
+      data: {
+        method: 'post',
+        path: '/auth/me',
+        Authorization: isAuthenticated() ? getToken() : '',
+      },
     }
-    return of(authSuccess(me))
+
+    return ajax(params)
+      .mergeMap((response) => {
+        const { name, refreshToken } = response.body
+        if (refreshToken && name === 'TokenExpiredError') {
+          const refreshParams = {
+            url,
+            method: 'post',
+            data: {
+              method: 'post',
+              path: '/auth/refresh',
+              payloads: { refreshToken },
+            },
+          }
+          return ajax(refreshParams)
+            .mergeMap((refreshResponse) => {
+              const { body } = refreshResponse
+              setToken(body.auth.token)
+
+              const me = {
+                ...body.auth,
+                followers: body.followers,
+                followings: body.followings,
+                email: body.email,
+                username: body.username,
+                profilePic: body.profilePic,
+                id: body.id,
+              }
+              return of(authMeSuccess(me))
+            })
+            .catch(error => of(authMeFailure(error)))
+        }
+
+        const { body } = response
+        const me = {
+          ...body.auth,
+          email: body.email,
+          followers: body.followers,
+          followings: body.followings,
+          username: body.username,
+          profilePic: body.profilePic,
+          id: body.id,
+        }
+        setToken(body.auth.token)
+        return of(authMeSuccess(me))
+      })
+      .catch(error => of(authMeFailure(error)))
   })
 
-export const signoutEpic = action$ => action$
-  .ofType(SIGNOUT)
-  .mergeMap(() => {
+export const authSignoutEpic = action$ => action$
+  .ofType(AUTH_SIGNOUT)
+  .map(() => {
     removeToken()
-    return of(signoutSuccess())
+    return authSignoutSuccess()
   })

@@ -1,59 +1,52 @@
 const bodyParser = require('body-parser')
-const chalk = require('chalk')
+const cookieParser = require('cookie-parser')
+const compression = require('compression')
+
 const express = require('express')
-const fetch = require('node-fetch')
-const next = require('next')
-const { apiHost, env, port } = require('./config')
+const nextjs = require('next')
+const { env, port } = require('./config')
 const routes = require('./config/routes')
 
+const api = require('./server/api')
+
 const dev = env !== 'production'
-const app = next({ dev })
+const app = nextjs({ dev })
 const handler = routes.getRequestHandler(app)
 
+function ignoreFavicon(req, res, next) {
+  if (req.originalUrl === '/favicon.ico') {
+    res.status(204).json({ nope: true })
+  } else {
+    next()
+  }
+}
 
 app
   .prepare()
   .then(() => {
     const server = express()
-
+    if (!dev) {
+      server.use(compression())
+    }
     server.use(bodyParser.json())
+    server.use(cookieParser())
+    server.use(ignoreFavicon)
+
+    server.get('/_healthz', (req, res) => {
+      const health = {
+        ts: new Date(),
+        pid: process.pid,
+        uptime: process.uptime(),
+        memory: process.memoryUsage(),
+        status: 'ok',
+      }
+      res.writeHead(200, { 'Content-Type': 'application/json' })
+      return res.end(JSON.stringify(health))
+    })
 
     server.get('*', (req, res) => handler(req, res))
 
-    server.post('/call', (req, res) => {
-      const {
-        Authorization, method, path, payloads,
-      } = req.body
-
-      const headers = {
-        'Content-Type': 'application/json',
-      }
-      let uri = `${apiHost}${path}`
-
-      const options = {
-        method, headers,
-      }
-
-      if (Authorization) {
-        options.headers.Authorization = Authorization
-      }
-
-      if (method === 'GET') {
-        const query = JSON.stringify(payloads.qs)
-        uri = `${uri}?string=${query}`
-      } else {
-        options.body = JSON.stringify(payloads)
-      }
-
-      /* eslint-disable no-console */
-      console.log(`${chalk.blue('[API CALL]:')} ${chalk.green(method)} ${chalk.white(uri)}`)
-      console.log(`${chalk.green('[BODY]:')} ${chalk.green(JSON.stringify(options))}`)
-      /* eslint-enable no-console */
-      return fetch(uri, options)
-        .then(response => response.json())
-        .then(response => res.json(response))
-        .catch(error => res.status(500).send(error))
-    })
+    api(server)
 
     server.listen(port, (err) => {
       if (err) {

@@ -3,7 +3,6 @@ export const SIGNIN_STOP = 'SIGNIN_STOP'
 export const SIGNIN_SUCCESS = 'SIGNIN_SUCCESS'
 export const SIGNIN_FAILURE = 'SIGNIN_FAILURE'
 export const SIGNIN = 'SIGNIN'
-export const SIGNIN_TYPE = 'SIGNIN_TYPE'
 export const SIGNIN_IS_ELIGIBLE = 'SIGNIN_IS_ELIGIBLE'
 
 const INITIAL_STATE = {
@@ -14,7 +13,6 @@ const INITIAL_STATE = {
   isError: false,
   isLoading: false,
   isSigninEligible: true,
-  response: {},
   type: '',
 }
 
@@ -26,17 +24,12 @@ const Signin = (state = INITIAL_STATE, { type, payload }) => {
         isSigninEligible: payload.isSigninEligible,
       }
 
-    case SIGNIN_TYPE:
-      return {
-        ...state,
-        type: payload.type,
-      }
-
     case SIGNIN:
       return {
         ...state,
         isLoading: true,
         data: payload.data,
+        type: payload.type,
       }
 
     case SIGNIN_STOP:
@@ -49,7 +42,6 @@ const Signin = (state = INITIAL_STATE, { type, payload }) => {
       return {
         ...state,
         isLoading: false,
-        response: payload.response,
       }
 
     case SIGNIN_FAILURE:
@@ -67,28 +59,22 @@ const Signin = (state = INITIAL_STATE, { type, payload }) => {
   }
 }
 
-export const signin = data => ({
+export const signin = (type, data) => ({
   type: SIGNIN,
-  payload: { data },
+  payload: { data, type },
 })
 
 export const signinStop = () => ({
   type: SIGNIN_STOP,
 })
 
-export const signinSuccess = response => ({
+export const signinSuccess = () => ({
   type: SIGNIN_SUCCESS,
-  payload: { response },
 })
 
 export const signinFailure = error => ({
   type: SIGNIN_FAILURE,
   payload: { error },
-})
-
-export const signinSetType = type => ({
-  type: SIGNIN_TYPE,
-  payload: { type },
 })
 
 export const signinSetIsEligible = isSigninEligible => ({

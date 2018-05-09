@@ -1,20 +1,28 @@
 import { combineEpics } from 'redux-observable'
-import { authEpic, signoutEpic } from 'observables/Auth'
-import { characterFetchEpic, characterFetchStartEpic } from 'observables/Character'
-import pingEpic from 'observables/Ping'
-import { signinEpic, signinSuccessEpic } from 'observables/Signin'
-import { userFetchEpic, userSetUsernameEpic } from 'observables/User'
 
-const rootEpics = combineEpics(
-  authEpic,
-  characterFetchEpic,
-  characterFetchStartEpic,
-  pingEpic,
+import { authMeEpic, authSignoutEpic } from 'observables/Auth'
+import {
+  pageFetchEpic,
+} from 'observables/Page'
+import {
   signinEpic,
   signinSuccessEpic,
-  signoutEpic,
+} from 'observables/Signin'
+import {
+  userEditEpic,
   userFetchEpic,
-  userSetUsernameEpic,
+  userValidateUsernameEpic,
+} from 'observables/User'
+
+const rootEpics = combineEpics(
+  authMeEpic,
+  authSignoutEpic,
+  pageFetchEpic,
+  signinEpic,
+  signinSuccessEpic,
+  userEditEpic,
+  userFetchEpic,
+  userValidateUsernameEpic,
 )
 
 export default rootEpics
